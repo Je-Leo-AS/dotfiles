@@ -1,0 +1,31 @@
+# =======================================
+# Arquivo: ~/.config/yazi/yazi.toml
+# (comportamento geral - mostrar hidden files sempre, etc.)
+[mgr]
+show_hidden     = true
+sort_by         = "natural"
+sort_dir_first  = true
+linemode        = "size"
+
+# =======================================
+# Arquivo: ~/.config/yazi/theme.toml
+# (cores e estilo pros arquivos ocultos)
+[icon]
+prepend_conds = [
+  { if = "hidden & !dir", fg = "lightgray", italic = true },
+  { if = "hidden & dir",  fg = "darkgray",  bold = true },
+]
+
+[opener]
+nvim-edit = [  # Nome customizado pro opener
+  { run = 'nvim "$@"', block = true, for = "unix" },
+]
+
+[open]
+rules = [
+  # Regras pra forçar nvim em arquivos de texto/código comuns (adicione mais extensões se quiser)
+  { mime = "text/*",                use = "nvim-edit" },
+  { mime = "application/json",      use = "nvim-edit" },
+  { mime = "inode/x-empty",         use = "nvim-edit" },  # arquivos vazios
+  { name = "*.{txt,md,py,rs,js,ts,lua,conf,toml,yml,yaml,sh,zsh,bash}", use = "nvim-edit" },
+]

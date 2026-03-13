@@ -1,0 +1,61 @@
+*meuhelp.txt*  Meus comandos personalizados do Neovim
+
+================================================================================
+ÍNDICE                                                        *meuhelp-indice*
+
+  1. Navegação e arquivos .............. |meuhelp-navegacao|
+  2. Debug (DAP) ....................... |meuhelp-debug|
+  3. Clipboard e colar ................. |meuhelp-clipboard|
+  4. Configurações gerais .............. |meuhelp-config|
+
+================================================================================
+1. NAVEGAÇÃO E ARQUIVOS                                    *meuhelp-navegacao*
+
+  <C-p>        Buscar arquivos (Telescope find_files)
+  <C-f>        Buscar texto no projeto (Telescope live_grep)
+  <C-a>        Selecionar tudo (normal mode)
+
+================================================================================
+2. DEBUG (DAP)                                                *meuhelp-debug*
+
+  <F5>         Continuar execução (Continue)
+  <F10>        Passar por cima (Step Over)
+  <F11>        Entrar na função (Step Into)
+  <F12>        Sair da função (Step Out)
+  <leader>b    Adicionar/remover breakpoint
+  <leader>du   Abrir/fechar UI do debug
+
+  A UI do debug abre automaticamente ao iniciar e fecha ao terminar.
+
+================================================================================
+3. CLIPBOARD E COLAR                                      *meuhelp-clipboard*
+
+  Normal / Visual mode:
+  <C-c>        Copiar para o clipboard do sistema
+  <C-v>        Colar do clipboard do sistema (após o cursor)
+  <S-Insert>   Colar do clipboard do sistema (após o cursor)
+
+  Insert mode:
+  <C-v>        Colar do clipboard do sistema
+  <S-Insert>   Colar do clipboard do sistema
+
+================================================================================
+4. CONFIGURAÇÕES GERAIS                                      *meuhelp-config*
+
+  expandtab      Usa espaços em vez de tab
+  tabstop=3      Tab ocupa 3 espaços
+  softtabstop=3  Backspace apaga 3 espaços
+  shiftwidth=3   Indentação usa 3 espaços
+  mapleader=" "  Leader key é o espaço
+
+  Plugins instalados:
+  - catppuccin     Colorscheme
+  - telescope      Busca de arquivos e texto
+  - treesitter     Syntax highlighting avançado
+  - nvim-dap       Debug Adapter Protocol
+  - dap-ui         Interface visual de debug
+  - dap-python     Adapter de debug para Python
+  - mason          Gerenciador de adapters/LSPs
+
+================================================================================
+vim:ft=help:
