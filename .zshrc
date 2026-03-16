@@ -52,3 +52,5 @@ add-zsh-hook precmd _wezterm_command_end
 _OSC133B=$'\e]133;B\007'
 PROMPT="%{${_OSC133B}%}"'%F{cyan}${CONDA_PROMPT_MODIFIER}%f%F{green}%n%f@%F{blue}%m%f %F{yellow}%1~%f $ '
 alias dotfiles='/usr/bin/git --git-dir=/home/je/.dotfiles/ --work-tree=/home/je'
+eval "$(starship init zsh)"
+

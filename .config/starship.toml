@@ -1,0 +1,33 @@
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol   = "[❯](bold red)"
+
+
+[username]
+show_always = true
+style_user  = "bold green"
+format      = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+style    = "bold blue"
+format   = "@[$hostname]($style) "
+
+[directory]
+style   = "bold yellow"
+format  = "[$path]($style) "
+truncation_length = 1
+
+[git_branch]
+symbol = " "
+style  = "bold purple"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+staged    = "[+$count](bold green) "
+modified  = "[✎$count](bold yellow) "
+untracked = "[?$count](bold red) "
+ahead     = "[⇡$count](bold cyan) "
+behind    = "[⇣$count](bold cyan) "
+diverged  = "[⇕](bold red) "
+deleted   = "[✘$count](bold red) "
