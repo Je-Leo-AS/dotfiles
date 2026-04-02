@@ -1,0 +1,10 @@
+appimagepool-bin
+ch34x-dkms-git
+docker-desktop
+ghdl
+gnu-netcat
+joplin-desktop
+lib32-ncurses5-compat-libs
+linuxtoys-bin
+stacer-git
+winboat-bin

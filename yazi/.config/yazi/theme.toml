@@ -1,0 +1,5 @@
+[icon]
+prepend_conds = [
+  { if = "hidden & !dir", text = "", fg = "lightgray", italic = true },
+  { if = "hidden & dir",  text = "", fg = "darkgray",  bold = true },
+]
