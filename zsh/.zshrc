@@ -3,7 +3,7 @@
 # -----------------------------
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-
+export TERMINAL=wezterm
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
@@ -53,4 +53,4 @@ _OSC133B=$'\e]133;B\007'
 PROMPT="%{${_OSC133B}%}"'%F{cyan}${CONDA_PROMPT_MODIFIER}%f%F{green}%n%f@%F{blue}%m%f %F{yellow}%1~%f $ '
 alias dotfiles='/usr/bin/git --git-dir=/home/je/.dotfiles/ --work-tree=/home/je'
 eval "$(starship init zsh)"
-
+alias ise='bash -c "source /opt/Xilinx/14.7/ISE_DS/settings64.sh && ise"'
