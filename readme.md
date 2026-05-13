@@ -285,6 +285,105 @@ stow -R zsh git nvim ssh
 
 ---
 
+# Sistema de cheatsheets do terminal
+
+Este repositório também possui uma documentação rápida em Markdown dentro da pasta `docs/`.
+
+A ideia é ter uma referência local, simples e fácil de abrir direto no terminal para ferramentas comuns como Git, LazyGit, LazyVim, Neovim, Yazi, Stow, SSH, Docker, Rclone e Tmux.
+
+## Comandos disponíveis no zsh
+
+Depois de aplicar o pacote `zsh` com Stow ou recarregar o shell:
+
+```bash
+source ~/.zshrc
+```
+
+Use:
+
+| Comando | O que faz |
+| --- | --- |
+| `docs` | Abre o índice principal em `docs/README.md` |
+| `cheats` | Lista todos os cheat sheets disponíveis |
+| `cdocs <nome>` | Abre a documentação de uma ferramenta |
+
+Exemplos:
+
+```bash
+docs
+cheats
+cdocs yazi
+cdocs git
+cdocs lazyvim
+```
+
+## Renderização com Glow
+
+As funções do zsh usam `glow` automaticamente quando ele está instalado. O Glow renderiza arquivos Markdown com formatação bonita no terminal.
+
+Instalação no Arch Linux:
+
+```bash
+sudo pacman -S glow
+```
+
+Instalação no Ubuntu / Debian, quando disponível no repositório da distribuição:
+
+```bash
+sudo apt install glow
+```
+
+Se `glow` não estiver instalado, os comandos usam `less` como fallback. Se `less` também não existir, usam `cat`.
+
+## Como adicionar um novo cheat sheet
+
+Crie um arquivo Markdown em `docs/` usando nome curto e em minúsculas:
+
+```bash
+nvim docs/fzf.md
+```
+
+Use esta estrutura básica:
+
+```markdown
+# Fzf Cheatsheet
+
+Descrição curta.
+
+---
+
+## Comandos mais úteis
+
+| Comando | Para que serve |
+| --- | --- |
+
+---
+
+## Atalhos de teclado
+
+---
+
+## Fluxos comuns
+
+---
+
+## Troubleshooting
+```
+
+Depois adicione o novo arquivo ao índice:
+
+```bash
+nvim docs/README.md
+```
+
+E abra com:
+
+```bash
+cdocs fzf
+```
+
+---
+
 # Observações
 
 * Sempre execute o `stow` de dentro da pasta `~/dotfiles`
@@ -292,5 +391,4 @@ stow -R zsh git nvim ssh
 * O Stow NÃO copia arquivos, apenas cria links simbólicos
 * Tome cuidado ao versionar arquivos sensíveis
 * Nunca suba chaves privadas SSH para o GitHub
-
 

@@ -1,0 +1,8 @@
+cheatpaths:
+  - name: personal
+    path: ~/.config/cheat/cheatsheets/personal
+    readonly: false
+
+style: monokai
+pager: less
+editor: nvim

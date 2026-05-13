@@ -29,4 +29,8 @@ rules = [
   { mime = "inode/x-empty",         use = "nvim-edit" },  # arquivos vazios
   { name = "*.{txt,md,py,rs,js,ts,lua,conf,toml,yml,yaml,sh,zsh,bash}", use = "nvim-edit" },
 ]
-
+[plugin]
+prepend_previewers = [
+  { name = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -s dark --width "$w" "$1"' },
+  { mime = "text/markdown", run = 'piper -- CLICOLOR_FORCE=1 glow -s dark --width "$w" "$1"' },
+]

@@ -55,5 +55,69 @@ alias dotfiles='/usr/bin/git --git-dir=/home/je/.dotfiles/ --work-tree=/home/je'
 eval "$(starship init zsh)"
 alias ise='bash -c "source /opt/Xilinx/14.7/ISE_DS/settings64.sh && ise"'
 
+# Terminal cheatsheets
+export DOTFILES_DOCS_DIR="$HOME/dotfiles/docs"
+
+_render_markdown() {
+  emulate -L zsh
+  local file="$1"
+
+  if command -v glow >/dev/null 2>&1; then
+    glow "$file"
+  elif command -v less >/dev/null 2>&1; then
+    less -R "$file"
+  else
+    cat "$file"
+  fi
+}
+
+docs() {
+  emulate -L zsh
+  local index="$DOTFILES_DOCS_DIR/README.md"
+
+  if [[ ! -f "$index" ]]; then
+    print "Docs index not found: $index" >&2
+    return 1
+  fi
+
+  _render_markdown "$index"
+}
+
+cheats() {
+  emulate -L zsh
+
+  if [[ ! -d "$DOTFILES_DOCS_DIR" ]]; then
+    print "Docs directory not found: $DOTFILES_DOCS_DIR" >&2
+    return 1
+  fi
+
+  print "Available cheatsheets:"
+  find "$DOTFILES_DOCS_DIR" -maxdepth 1 -type f -name "*.md" ! -name "README.md" -printf "  %f\n" | sed "s/\\.md$//" | sort
+  print
+  print "Open one with: cdocs <name>"
+}
+
+cdocs() {
+  emulate -L zsh
+  local name="$1"
+
+  if [[ -z "$name" ]]; then
+    print "Usage: cdocs <name>" >&2
+    print "Example: cdocs yazi" >&2
+    return 1
+  fi
+
+  name="${name%.md}"
+  local file="$DOTFILES_DOCS_DIR/$name.md"
+
+  if [[ ! -f "$file" ]]; then
+    print "Cheatsheet not found: $name" >&2
+    cheats
+    return 1
+  fi
+
+  _render_markdown "$file"
+}
+
 alias update-pkgs='~/dotfiles/scripts/update-pkglist.sh'
 alias dots='$HOME/dotfiles/scripts/update-dotfiles.sh'
