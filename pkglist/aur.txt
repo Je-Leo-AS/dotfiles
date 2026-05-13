@@ -1,0 +1,14 @@
+appimagepool-bin
+ch34x-dkms-git
+docker-desktop
+docker-desktop-debug
+f3-debug
+ghdl
+ghdl-debug
+gnu-netcat
+lib32-ncurses5-compat-libs
+lib32-ncurses5-compat-libs-debug
+linuxtoys-bin
+python-pytooling
+stacer-git
+winboat-bin

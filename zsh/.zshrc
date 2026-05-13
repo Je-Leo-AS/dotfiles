@@ -54,3 +54,6 @@ PROMPT="%{${_OSC133B}%}"'%F{cyan}${CONDA_PROMPT_MODIFIER}%f%F{green}%n%f@%F{blue
 alias dotfiles='/usr/bin/git --git-dir=/home/je/.dotfiles/ --work-tree=/home/je'
 eval "$(starship init zsh)"
 alias ise='bash -c "source /opt/Xilinx/14.7/ISE_DS/settings64.sh && ise"'
+
+alias update-pkgs='~/dotfiles/scripts/update-pkglist.sh'
+alias dots='$HOME/dotfiles/scripts/update-dotfiles.sh'
