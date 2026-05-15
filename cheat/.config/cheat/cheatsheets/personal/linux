@@ -1,0 +1,202 @@
+Aqui está uma versão unificada e organizada em estilo cheatsheet/markdown bonito para você colocar no `cheat` (tipo `cheat linux`, `cheat ssh` ou `cheat homelab`).
+
+Baseado nos arquivos:
+
+*
+*
+*
+
+````markdown
+# Linux / SSH / Homelab Cheatsheet
+
+Comandos úteis para SSH, gerenciamento de portas, homelab, serviços e backup.
+
+---
+
+# SSH
+
+## Conectar no homelab
+
+```bash
+ssh -i ~/.ssh/id_homelab je@homelab-cwbs
+```
+
+---
+
+## Configuração SSH
+
+Adicionar chave pública no servidor:
+
+```bash
+~/.ssh/authorized_keys
+```
+
+Adicionar chave privada no cliente:
+
+```bash
+~/.ssh/id_iotag
+```
+
+Configuração do `~/.ssh/config`:
+
+```ssh
+Host iotag
+    HostName 10.1.10.212
+    User leo
+    IdentityFile ~/.ssh/id_iotag
+```
+
+---
+
+# Serviços
+
+## Reiniciar sistema
+
+```bash
+sudo reboot
+```
+
+---
+
+## Desligar monitor do servidor
+
+```bash
+sudo vbetool dpms off
+```
+
+---
+
+# Portas
+
+## Ver processos usando uma porta
+
+```bash
+sudo lsof -i :8006
+```
+
+---
+
+## Pegar apenas os PIDs
+
+```bash
+sudo lsof -t -i :8006
+```
+
+---
+
+## Matar tudo na porta
+
+```bash
+sudo lsof -t -i :8006 | xargs -r sudo kill -9
+```
+
+---
+
+## Verificar se a porta ainda está aberta
+
+```bash
+sudo ss -tulnp | grep :8006
+```
+
+---
+
+## Alias killport
+
+```bash
+alias killport='f() { sudo lsof -t -i :$1 | xargs -r sudo kill -9; }; f'
+```
+
+Uso:
+
+```bash
+killport 8006
+```
+
+---
+
+# DNS / Porta 53
+
+## Iniciar systemd-resolved
+
+```bash
+sudo systemctl start systemd-resolved
+sudo systemctl enable systemd-resolved
+```
+
+---
+
+## Parar systemd-resolved
+
+```bash
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+```
+
+---
+
+# Tailscale
+
+## Gerar certificado
+
+```bash
+sudo tailscale cert homelab-cwb.tail613c98.ts.net
+```
+
+---
+
+# Dotfiles
+
+## Backup incluindo arquivos ocultos
+
+```bash
+shopt -s dotglob
+cp -r .* dotfiles/
+shopt -u dotglob
+```
+
+---
+
+## Salvar lista de aplicativos instalados
+
+### Debian / Ubuntu
+
+```bash
+dpkg --get-selections | awk '$2 == "install" {print $1}' > ~/dotfiles/pkg-list.txt
+```
+
+---
+
+# Git
+
+## Alterar remote do GitLab
+
+```bash
+git remote set-url origin https://oauth2:TOKEN@gitlab.com/projetos-pessoais5523809/homelab-dotfiles.git
+```
+
+---
+
+# Troubleshooting
+
+| Problema | Solução |
+|---|---|
+| Porta ocupada | `sudo lsof -i :PORTA` |
+| Processo travado | `killport PORTA` |
+| SSH não conecta | Verifique `~/.ssh/config` |
+| DNS quebrado | Reinicie `systemd-resolved` |
+| Git remoto errado | `git remote set-url origin URL` |
+
+---
+
+# Dicas úteis
+
+| Dica | Comando |
+|---|---|
+| Ver portas abertas | `ss -tulnp` |
+| Ver processos | `htop` |
+| Ver discos | `lsblk` |
+| Ver RAM | `free -h` |
+| Ver CPU | `lscpu` |
+
+````
+

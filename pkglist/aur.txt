@@ -1,3 +1,4 @@
+accounts-qml-module
 appimagepool-bin
 ch34x-dkms-git
 docker-desktop

@@ -4,5 +4,5 @@ cheatpaths:
     readonly: false
 
 style: monokai
-pager: less
+dpager: "glow -"
 editor: nvim

@@ -50,6 +50,7 @@ ghdl
 git
 git-filter-repo
 git-lfs
+glow
 gnome-tweaks
 gnu-netcat
 gptfdisk
@@ -111,6 +112,8 @@ linux-firmware
 linux-headers
 linux-zen
 linuxtoys-bin
+man-db
+man-pages
 massif-visualizer
 musescore
 nano

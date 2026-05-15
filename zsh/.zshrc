@@ -5,7 +5,6 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 export TERMINAL=wezterm
 plugins=(git)
-
 source $ZSH/oh-my-zsh.sh
 
 # -----------------------------
@@ -121,3 +120,22 @@ cdocs() {
 
 alias update-pkgs='~/dotfiles/scripts/update-pkglist.sh'
 alias dots='$HOME/dotfiles/scripts/update-dotfiles.sh'
+
+# Cheat renderizado com glow
+cshow() {
+  command cheat "$@" | glow -
+}
+
+pc-info() {
+  echo "==== CPU ===="
+  lscpu
+
+  echo -e "\n==== RAM ===="
+  free -h
+
+  echo -e "\n==== DISCO ===="
+  lsblk
+
+  echo -e "\n==== MODELO DA MÁQUINA ===="
+  sudo dmidecode -t system | grep -E "Manufacturer|Product Name|Version"
+}

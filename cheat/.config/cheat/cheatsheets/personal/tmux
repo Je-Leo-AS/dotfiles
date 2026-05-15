@@ -1,88 +1,292 @@
 # Tmux Cheatsheet
 
-Tmux mantem sessoes de terminal vivas. Voce pode desconectar e voltar depois, alem de dividir a tela em paineis.
+Tmux mantém sessões de terminal vivas. Você pode desconectar e voltar depois, além de dividir a tela em painéis, usar múltiplas janelas e manter processos ativos via SSH.
 
 ---
 
-## Comandos mais uteis
+## O que é o Tmux?
 
-| Comando | Para que serve |
-| --- | --- |
-| `tmux` | Cria uma sessao |
-| `tmux new -s nome` | Cria sessao com nome |
-| `tmux ls` | Lista sessoes |
-| `tmux attach -t nome` | Reconecta em uma sessao |
-| `tmux kill-session -t nome` | Encerra uma sessao |
-| `tmux rename-session -t antigo novo` | Renomeia sessao |
+O **tmux** é um multiplexador de terminal. Ele permite:
+
+- Manter processos rodando em segundo plano
+- Reconectar sessões depois
+- Dividir o terminal em painéis
+- Trabalhar com múltiplas janelas
+- Compartilhar sessões
+- Melhorar produtividade em servidores e desenvolvimento
 
 ---
 
-## Atalhos de teclado
+## Instalação
 
-O prefixo padrao e `Ctrl-b`. Aperte `Ctrl-b`, solte, depois aperte a tecla do comando.
+### Arch Linux
 
-| Atalho | Acao |
-| --- | --- |
-| `Ctrl-b d` | Desconectar da sessao |
-| `Ctrl-b %` | Dividir painel verticalmente |
-| `Ctrl-b "` | Dividir painel horizontalmente |
-| `Ctrl-b setas` | Mover entre paineis |
-| `Ctrl-b c` | Nova janela |
-| `Ctrl-b n` | Proxima janela |
-| `Ctrl-b p` | Janela anterior |
-| `Ctrl-b ,` | Renomear janela |
-| `Ctrl-b [` | Modo de copia/scroll |
-| `Ctrl-b ?` | Ajuda de atalhos |
+```bash
+sudo pacman -S tmux
+```
+
+### Ubuntu / Debian
+
+```bash
+sudo apt install tmux
+```
+
+---
+
+## Prefixo padrão
+
+O prefixo padrão do tmux é:
+
+```text
+Ctrl+b
+```
+
+Pressione `Ctrl+b`, solte, e depois pressione a tecla do atalho.
+
+| Atalho | Descrição |
+|---|---|
+| `Ctrl+b` | Prefixo principal do tmux |
+
+---
+
+## Gerenciamento de Sessões
+
+| Comando / Atalho | Descrição |
+|---|---|
+| `tmux` | Inicia nova sessão |
+| `tmux new -s nome` | Cria nova sessão com nome |
+| `tmux ls` | Lista sessões ativas |
+| `tmux attach` | Reconecta à última sessão |
+| `tmux attach -t nome` | Reconecta a sessão específica |
+| `tmux a` | Forma curta de attach |
+| `tmux a -t nome` | Forma curta de attach específico |
+| `tmux rename-session -t antigo novo` | Renomeia sessão |
+| `tmux kill-session -t nome` | Mata sessão específica |
+| `tmux kill-server` | Mata todas as sessões |
+| `Ctrl+b d` | Desanexa da sessão atual |
+| `Ctrl+b $` | Renomeia sessão atual |
+
+---
+
+## Gerenciamento de Janelas
+
+As janelas funcionam como abas dentro da sessão.
+
+| Comando / Atalho | Descrição |
+|---|---|
+| `Ctrl+b c` | Cria nova janela |
+| `Ctrl+b w` | Lista janelas |
+| `Ctrl+b n` | Próxima janela |
+| `Ctrl+b p` | Janela anterior |
+| `Ctrl+b l` | Última janela usada |
+| `Ctrl+b 0..9` | Vai para janela pelo número |
+| `Ctrl+b ,` | Renomeia janela |
+| `Ctrl+b &` | Fecha janela atual |
+
+---
+
+## Gerenciamento de Painéis (Panes)
+
+| Comando / Atalho | Descrição |
+|---|---|
+| `Ctrl+b %` | Divide painel verticalmente |
+| `Ctrl+b "` | Divide painel horizontalmente |
+| `Ctrl+b o` | Vai para próximo painel |
+| `Ctrl+b ;` | Alterna entre os dois últimos painéis |
+| `Ctrl+b setas` | Navega entre painéis |
+| `Ctrl+b q` | Mostra número dos painéis |
+| `Ctrl+b x` | Fecha painel |
+| `Ctrl+b z` | Zoom/maximiza painel |
+| `Ctrl+b {` | Move painel para esquerda |
+| `Ctrl+b }` | Move painel para direita |
+| `Ctrl+b Espaço` | Alterna layouts |
+| `Ctrl+b Ctrl + setas` | Ajusta tamanho do painel |
+| `Ctrl+b Alt + 1..5` | Alterna layouts rápidos |
+
+---
+
+## Modo de Cópia (Copy Mode)
+
+Permite scroll e copiar conteúdo do terminal.
+
+| Comando / Atalho | Descrição |
+|---|---|
+| `Ctrl+b [` | Entra no modo de cópia |
+| `Espaço` | Inicia seleção |
+| `Enter` | Copia seleção |
+| `q` | Sai do modo de cópia |
+| `Ctrl+b ]` | Cola buffer copiado |
+
+### Navegação estilo Vim
+
+Adicione ao `~/.tmux.conf`:
+
+```bash
+setw -g mode-keys vi
+```
+
+Ou modo Emacs:
+
+```bash
+setw -g mode-keys emacs
+```
+
+---
+
+## Configuração (`~/.tmux.conf`)
+
+Exemplo básico:
+
+```bash
+# Mouse
+set -g mouse on
+
+# Navegação estilo Vim
+setw -g mode-keys vi
+
+# Alterar prefixo
+set -g prefix C-a
+unbind C-b
+bind C-a send-prefix
+```
+
+Recarregar config:
+
+```bash
+tmux source-file ~/.tmux.conf
+```
 
 ---
 
 ## Fluxos comuns
 
-### Criar sessao de trabalho
+### Criar sessão de trabalho
 
 ```bash
 tmux new -s trabalho
 ```
 
-Para sair sem matar os processos: `Ctrl-b d`.
+Desconectar sem matar processos:
 
-Para voltar:
+```text
+Ctrl+b d
+```
+
+Reconectar:
 
 ```bash
 tmux attach -t trabalho
 ```
 
-### Dividir tela
+---
 
-1. `Ctrl-b %` para painel vertical.
-2. `Ctrl-b "` para painel horizontal.
-3. `Ctrl-b setas` para navegar.
+### Trabalhar com múltiplos painéis
+
+1. `Ctrl+b %` → divide verticalmente
+2. `Ctrl+b "` → divide horizontalmente
+3. `Ctrl+b setas` → navegar
+4. `Ctrl+b z` → maximizar painel
 
 ---
 
-## Exemplos
-
-Criar sessao para servidor:
+### Sessão para servidor remoto
 
 ```bash
 tmux new -s server
+ssh usuario@host
 ```
 
-Listar e reconectar:
+Desconecte com:
+
+```text
+Ctrl+b d
+```
+
+Depois:
 
 ```bash
-tmux ls
 tmux attach -t server
+```
+
+---
+
+## Sincronização de painéis
+
+Enviar o mesmo comando para todos os painéis:
+
+```bash
+:setw synchronize-panes on
+```
+
+Desativar:
+
+```bash
+:setw synchronize-panes off
 ```
 
 ---
 
 ## Troubleshooting
 
-| Problema | Solucao |
-| --- | --- |
-| Nao sei sair | Use `Ctrl-b d` para desconectar ou `exit` para fechar shell |
-| Sessao nao existe | Confira `tmux ls` |
-| Atalho nao funciona | Aperte `Ctrl-b`, solte, depois a tecla |
-| Terminal estranho | Tente `tmux kill-session -t nome` e abra nova sessao |
+| Problema | Solução |
+|---|---|
+| Não sei sair | Use `Ctrl+b d` ou `exit` |
+| Sessão não existe | Confira `tmux ls` |
+| Atalho não funciona | Pressione prefixo e solte antes |
+| Terminal bugado | Rode `reset` |
+| Configuração não aplicou | Rode `tmux source-file ~/.tmux.conf` |
+| Mouse não funciona | Ative `set -g mouse on` |
 
+---
+
+## Dicas de produtividade
+
+| Dica | Descrição |
+|---|---|
+| Use sessões nomeadas | Facilita reconexão |
+| Use múltiplos painéis | Melhor multitarefa |
+| Combine com SSH | Mantém processos vivos |
+| Use copy mode | Scroll sem mouse |
+| Use layouts | Organização rápida |
+
+---
+
+## Exemplos rápidos
+
+### Criar ambiente de desenvolvimento
+
+```bash
+tmux new -s dev
+```
+
+### Abrir múltiplos serviços
+
+```bash
+Ctrl+b %
+```
+
+```bash
+Ctrl+b "
+```
+
+### Listar sessões
+
+```bash
+tmux ls
+```
+
+### Matar sessão
+
+```bash
+tmux kill-session -t dev
+```
+
+---
+
+## Referências
+
+- https://quickref.me/tmux.html
+- https://phoenixnap.com/kb/tmux-cheat-sheet
+- https://tmuxai.dev/tmux-cheat-sheet/
+- https://www.stationx.net/tmux-cheat-sheet/
+- https://www.networkchuck.com/tmux-cheatsheet/
