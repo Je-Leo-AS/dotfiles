@@ -1,0 +1,10 @@
+[Unit]
+Description=RClone OneDrive Bisync Timer
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Unit=rclone-onedrive.service
+
+[Install]
+WantedBy=timers.target

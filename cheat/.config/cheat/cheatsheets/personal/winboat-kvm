@@ -1,0 +1,221 @@
+# WinBoat / KVM Setup (Arch Linux)
+
+Resolver problemas de KVM no Arch Linux para usar WinBoat com aceleração.
+
+---
+
+# 1. Verificar suporte à virtualização
+
+Instalar ferramenta:
+
+```bash
+sudo pacman -S cpu-checker
+```
+
+Testar:
+
+```bash
+kvm-ok
+```
+
+Resultado esperado:
+
+```text
+INFO: Your CPU supports KVM extensions
+KVM acceleration can be used
+```
+
+Se não funcionar:
+
+- Entrar na BIOS/UEFI
+- Ativar:
+  - Intel VT-x
+  - AMD-V / SVM
+
+---
+
+# 2. Instalar pacotes necessários
+
+```bash
+sudo pacman -S --needed \
+    qemu-full \
+    libvirt \
+    edk2-ovmf \
+    virt-manager \
+    dnsmasq \
+    iptables-nft \
+    ebtables
+```
+
+---
+
+# 3. Carregar módulos KVM
+
+## Intel
+
+```bash
+sudo modprobe kvm_intel
+```
+
+## AMD
+
+```bash
+sudo modprobe kvm_amd
+```
+
+Verificar:
+
+```bash
+lsmod | grep kvm
+```
+
+Saída esperada:
+
+```text
+kvm_intel
+kvm
+```
+
+ou
+
+```text
+kvm_amd
+kvm
+```
+
+---
+
+# 4. Carregar automaticamente no boot
+
+Editar:
+
+```bash
+sudo nvim /etc/mkinitcpio.conf
+```
+
+Adicionar em `MODULES`:
+
+## Intel
+
+```text
+MODULES=(kvm_intel)
+```
+
+## AMD
+
+```text
+MODULES=(kvm_amd)
+```
+
+Regerar initramfs:
+
+```bash
+sudo mkinitcpio -P
+```
+
+Reiniciar:
+
+```bash
+sudo reboot
+```
+
+---
+
+# 5. Configurar permissões
+
+Verificar dispositivo:
+
+```bash
+ls -l /dev/kvm
+```
+
+Adicionar usuário ao grupo:
+
+```bash
+sudo usermod -aG kvm $USER
+```
+
+Aplicar sem reboot:
+
+```bash
+newgrp kvm
+```
+
+---
+
+# 6. Habilitar libvirt
+
+```bash
+sudo systemctl enable --now libvirtd
+```
+
+Verificar status:
+
+```bash
+systemctl status libvirtd
+```
+
+---
+
+# 7. Testar novamente
+
+```bash
+kvm-ok
+```
+
+---
+
+# 8. Rodar WinBoat
+
+```bash
+KVM=Y winboat
+```
+
+Evitar:
+
+```bash
+KVM=N
+```
+
+pois desabilita aceleração.
+
+---
+
+# Nested KVM
+
+Se aparecer:
+
+```text
+Nested KVM virtualization detected
+```
+
+Você provavelmente está rodando dentro de outra VM.
+
+KVM pode não funcionar corretamente nesse caso.
+
+---
+
+# Debug útil
+
+```bash
+kvm-ok
+```
+
+```bash
+lsmod | grep kvm
+```
+
+```bash
+lspci | grep VGA
+```
+
+---
+
+# Referências
+
+- Arch Wiki:
+  https://wiki.archlinux.org/title/KVM
+
+- WinBoat:
+  https://github.com/TibixDev/winboat
+

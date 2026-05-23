@@ -1,0 +1,11 @@
+[Unit]
+Description=RClone OneDrive Bisync
+
+[Service]
+Type=oneshot
+ExecStart=rclone bisync "OneDrive Pessoal": /home/je/Clouds/OneDrive \
+  --exclude "Cofre Pessoal/**" \
+  --log-file=/home/je/rclone-onedrive.log
+
+[Install]
+WantedBy=default.target

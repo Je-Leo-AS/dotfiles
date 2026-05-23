@@ -1,0 +1,11 @@
+[Unit]
+Description=RClone Google Drive Bisync Timer
+After=rclone-googledrive-resync.service
+Requires=rclone-googledrive-resync.service
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target

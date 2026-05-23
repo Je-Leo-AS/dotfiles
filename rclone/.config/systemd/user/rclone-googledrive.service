@@ -1,0 +1,15 @@
+[Unit]
+Description=RClone Google Drive Bisync
+After=network-online.target rclone-googledrive-resync.service
+Wants=network-online.target
+Requires=rclone-googledrive-resync.service
+
+[Service]
+Type=oneshot
+ExecStart=rclone bisync "Google Drive Pessoal": /home/je/Clouds/GoogleDrive \
+  --log-file=/home/je/rclone-googledrive.log
+
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

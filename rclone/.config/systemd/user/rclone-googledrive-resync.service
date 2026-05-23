@@ -1,0 +1,11 @@
+[Unit]
+Description=RClone Google Drive Bisync Resync Inicial
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=rclone bisync "Google Drive Pessoal": /home/je/Clouds/GoogleDrive --resync --log-file=/home/je/rclone-googledrive.log
+
+[Install]
+WantedBy=default.target

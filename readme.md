@@ -143,6 +143,40 @@ stow nvim
 
 ---
 
+# Systemd de usuário
+
+Os units de usuário ficam versionados no mesmo formato usado pelo Stow:
+
+```text
+rclone/
+└── .config/systemd/user/
+    ├── rclone-googledrive-resync.service
+    ├── rclone-googledrive.service
+    ├── rclone-googledrive.timer
+    ├── rclone-onedrive-resync.service
+    ├── rclone-onedrive.service
+    └── rclone-onedrive.timer
+```
+
+Para aplicar em uma máquina:
+
+```bash
+cd ~/dotfiles
+stow rclone
+systemctl --user daemon-reload
+systemctl --user enable --now rclone-onedrive.timer
+systemctl --user enable --now rclone-googledrive.timer
+```
+
+Para conferir o estado:
+
+```bash
+systemctl --user list-timers 'rclone-*'
+systemctl --user status rclone-onedrive.timer rclone-googledrive.timer
+```
+
+---
+
 # Como adicionar a pasta `.ssh`
 
 ## Mover a pasta inteira
@@ -391,4 +425,3 @@ cdocs fzf
 * O Stow NÃO copia arquivos, apenas cria links simbólicos
 * Tome cuidado ao versionar arquivos sensíveis
 * Nunca suba chaves privadas SSH para o GitHub
-

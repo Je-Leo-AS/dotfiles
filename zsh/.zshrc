@@ -139,3 +139,24 @@ pc-info() {
   echo -e "\n==== MODELO DA MÁQUINA ===="
   sudo dmidecode -t system | grep -E "Manufacturer|Product Name|Version"
 }
+
+export QSYS_ROOTDIR="/home/je/.cache/yay/quartus-free/pkg/quartus-free-quartus/opt/intelFPGA/25.1/quartus/sopc_builder/bin"
+
+
+vsimq() {
+    export PATH=/opt/intelFPGA/25.1/questa_fse/bin:$PATH
+
+    export MGLS_LICENSE_FILE=$HOME/Applications/Xilinx_ISE_DS_Lin_14.7_1015_1/LR-167545_License.dat
+
+    export SALT_LICENSE_SERVER=$MGLS_LICENSE_FILE
+
+    unset LM_LICENSE_FILE
+
+    ulimit -s unlimited
+
+    if [ $# -gt 0 ]; then
+        cd "$1" || return
+    fi
+
+    vsim
+}

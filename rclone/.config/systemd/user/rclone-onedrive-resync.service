@@ -1,0 +1,11 @@
+[Unit]
+Description=RClone OneDrive Initial Resync
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=rclone bisync "OneDrive Pessoal:" /home/je/Clouds/OneDrive --exclude "Cofre Pessoal/**" --resync --log-file=/home/je/rclone-onedrive.log
+ExecStartPost=systemctl --user start rclone-onedrive.timer
+
+[Install]
+WantedBy=default.target
