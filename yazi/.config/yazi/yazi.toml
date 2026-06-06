@@ -1,36 +1,59 @@
 # =======================================
-# Arquivo: ~/.config/yazi/yazi.toml
-# (comportamento geral - mostrar hidden files sempre, etc.)
+# Yazi Configuration
+# ~/.config/yazi/yazi.toml
+# =======================================
+
 [mgr]
-show_hidden     = true
-sort_by         = "natural"
-sort_dir_first  = true
-linemode        = "size"
+show_hidden = true
+sort_by = "natural"
+sort_dir_first = true
+linemode = "size"
 
 # =======================================
-# Arquivo: ~/.config/yazi/theme.toml
-# (cores e estilo pros arquivos ocultos)
-[icon]
-prepend_conds = [
-  { if = "hidden & !dir", fg = "lightgray", italic = true },
-  { if = "hidden & dir",  fg = "darkgray",  bold = true },
-]
+# Openers
+# =======================================
 
 [opener]
-nvim-edit = [{ run = 'nvim "$@"', block = true, for = "unix" }]
-pdf = [{ run = 'xdg-open "$@"', desc = "Abrir com padrão do sistema", orphan = true }]
+nvim-edit = [
+  { run = 'nvim "$@"', block = true, for = "unix" }
+]
+
+pdf = [
+  { run = 'xdg-open "$@"', desc = "Abrir PDF", orphan = true }
+]
+
+# =======================================
+# Open Rules
+# =======================================
 
 [open]
 rules = [
-  # Regras pra forçar nvim em arquivos de texto/código comuns (adicione mais extensões se quiser)
-  { mime = "text/*",                use = "nvim-edit" },
+  { mime = "text/*", use = "nvim-edit" },
+  { mime = "application/json", use = "nvim-edit" },
+  { mime = "inode/x-empty", use = "nvim-edit" },
+
   { mime = "application/pdf", use = "pdf" },
-  { mime = "application/json",      use = "nvim-edit" },
-  { mime = "inode/x-empty",         use = "nvim-edit" },  # arquivos vazios
-  { name = "*.{txt,md,py,rs,js,ts,lua,conf,toml,yml,yaml,sh,zsh,bash}", use = "nvim-edit" },
+
+  # Fallback para extensões comuns
+  { url = "*.{txt,md,py,rs,js,ts,lua,conf,toml,yml,yaml,sh,zsh,bash,c,cpp,h,hpp,v,vhd,vhdl}", use = "nvim-edit" },
 ]
+
+# =======================================
+# Markdown Preview
+# =======================================
+
 [plugin]
 prepend_previewers = [
-  { name = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -s dark --width "$w" "$1"' },
+  { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -s dark --width "$w" "$1"' },
   { mime = "text/markdown", run = 'piper -- CLICOLOR_FORCE=1 glow -s dark --width "$w" "$1"' },
+]
+
+# =======================================
+# Hidden Files Styling
+# =======================================
+
+[icon]
+prepend_conds = [
+  { if = "hidden & !dir", fg = "lightgray", italic = true },
+  { if = "hidden & dir", fg = "darkgray", bold = true },
 ]

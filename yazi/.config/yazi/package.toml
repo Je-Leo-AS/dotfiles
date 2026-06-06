@@ -3,5 +3,10 @@ use = "yazi-rs/plugins:markdown"
 rev = "1db18bb"
 hash = "99aa06d3014798d86001c324468d497f"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:piper"
+rev = "598cdb6"
+hash = "d99cfbc3812e7738505f9e4bedb759cd"
+
 [flavor]
 deps = []

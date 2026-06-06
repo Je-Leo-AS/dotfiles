@@ -49,6 +49,40 @@ local plugins = {
      ft = "typst",
      build = function() require("typst-preview").update() end,
   },
+  {
+     "folke/snacks.nvim",
+     priority = 1000,
+     lazy = false,
+     opts = {
+	     dashboard = {
+        enabled = true,
+        preset = {
+          header = [[
+      ███╗   ██╗██╗   ██╗██╗███╗   ███╗
+      ████╗  ██║██║   ██║██║████╗ ████║
+      ██╔██╗ ██║██║   ██║██║██╔████╔██║
+      ██║╚██╗██║╚██╗ ██╔╝██║██║╚██╔╝██║
+      ██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║
+      ╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝
+          ]],
+          keys = {
+            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.picker.files()" },
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.picker.grep()" },
+            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
+            { icon = " ", key = "y", desc = "Yazi",         action = ":terminal yazi" },
+            { icon = " ", key = "c", desc = "Config", action = ":e ~/.config/nvim/init.lua" },
+            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
+      },
+      notifier = {
+         enabled = true,
+         timeout = 3000,
+       },
+   }
+  },
 }
 require("lazy").setup(plugins, opts)
 
@@ -127,3 +161,13 @@ vim.keymap.set({"n","v"}, "<A-S-Down>", "yyp", { desc = "Copy line down" })
 -- Comentar linha com Ctrl+/  (funciona na maioria dos terminais)
 vim.keymap.set("n", "<C-/>", "gcc", { remap = true, desc = "Toggle comment" })
 vim.keymap.set("v", "<C-/>", "gc",  { remap = true, desc = "Toggle comment" })
+vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent" })
+vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent" })
+
+vim.keymap.set("n", "<leader>t", function()
+  vim.cmd("botright split")
+  vim.cmd("resize 12")
+  vim.cmd("terminal")
+end, { desc = "Open terminal" })
+
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
