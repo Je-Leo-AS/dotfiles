@@ -1,0 +1,129 @@
+# Mydash Cheatsheet
+
+Mydash e um dashboard simples de terminal com modulos em shell.
+
+---
+
+## Comandos mais uteis
+
+| Comando | Para que serve |
+| --- | --- |
+| `~/.config/mydash/mydash` | Roda o dashboard geral |
+| `~/.config/mydash/run` | Atalho para rodar o dashboard |
+| `watch -n 10 ~/.config/mydash/mydash` | Atualiza automaticamente a cada 10s |
+| `rclone-dash` | Roda o dashboard focado em rclone |
+| `cd ~/dotfiles && stow mydash` | Instala os links do dashboard |
+
+---
+
+## Arquivos importantes
+
+| Caminho | Para que serve |
+| --- | --- |
+| `~/.config/mydash/mydash` | Script principal |
+| `~/.config/mydash/run` | Atalho de execucao |
+| `~/.config/mydash/modules/*.sh` | Modulos do dashboard |
+| `~/.local/bin/rclone-dash` | Dashboard separado do rclone |
+| `~/dotfiles/mydash/.config/mydash/` | Fonte versionada pelo Stow |
+
+---
+
+## Adicionar novo modulo
+
+Crie o arquivo:
+
+```bash
+nvim ~/.config/mydash/modules/novo.sh
+```
+
+Template:
+
+```bash
+section "Nome da Secao"
+
+echo -n "Item: "
+if comando >/dev/null 2>&1; then
+    ok
+else
+    fail
+fi
+```
+
+Ative no script principal:
+
+```bash
+nvim ~/.config/mydash/mydash
+```
+
+Adicione no final, na ordem em que a secao deve aparecer:
+
+```bash
+source "$MODULE_DIR/novo.sh"
+```
+
+---
+
+## Helpers disponiveis
+
+| Helper | Para que serve |
+| --- | --- |
+| `section "Titulo"` | Cria titulo azul |
+| `ok` | Imprime OK verde |
+| `fail` | Imprime FAIL vermelho |
+| `warn "mensagem"` | Imprime mensagem amarela |
+
+Cores:
+
+```bash
+$GREEN $RED $YELLOW $BLUE $BOLD $RESET
+```
+
+---
+
+## Exemplo de modulo
+
+Arquivo:
+
+```bash
+~/.config/mydash/modules/docker.sh
+```
+
+Conteudo:
+
+```bash
+section "Docker"
+
+echo -n "Servico: "
+if systemctl is-active docker >/dev/null 2>&1; then
+    ok
+else
+    fail
+fi
+
+echo -n "Comando: "
+if command -v docker >/dev/null 2>&1; then
+    ok
+else
+    fail
+fi
+```
+
+Ativar:
+
+```bash
+source "$MODULE_DIR/docker.sh"
+```
+
+---
+
+## Depois de editar
+
+Como `~/.config/mydash` esta linkado via Stow, editar ali ja altera os arquivos
+em `~/dotfiles/mydash`.
+
+Ver mudancas:
+
+```bash
+cd ~/dotfiles
+git status --short
+```

@@ -86,6 +86,8 @@ Isso instala os links para:
 ~/.local/bin/rclone-dash
 ```
 
+Cheatsheet: [cheat/.config/cheat/cheatsheets/personal/mydash](cheat/.config/cheat/cheatsheets/personal/mydash)
+
 ## Remover links de um pacote
 
 ```bash
