@@ -7,6 +7,10 @@ export TERMINAL=wezterm
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
+if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
 # -----------------------------
 # Editor
 # -----------------------------
@@ -50,7 +54,7 @@ add-zsh-hook precmd _wezterm_command_end
 # início do input
 _OSC133B=$'\e]133;B\007'
 PROMPT="%{${_OSC133B}%}"'%F{cyan}${CONDA_PROMPT_MODIFIER}%f%F{green}%n%f@%F{blue}%m%f %F{yellow}%1~%f $ '
-alias dotfiles='/usr/bin/git --git-dir=/home/je/.dotfiles/ --work-tree=/home/je'
+alias dotfiles='/usr/bin/git -C /home/je/dotfiles'
 eval "$(starship init zsh)"
 alias ise='bash -c "source /opt/Xilinx/14.7/ISE_DS/settings64.sh && ise"'
 
@@ -160,3 +164,6 @@ vsimq() {
 
     vsim
 }
+
+alias dashpane="wezterm cli split-pane --right --percent 45 -- bash -lc '~/.config/mydash/run'"
+alias dash="~/.config/mydash/mydash"

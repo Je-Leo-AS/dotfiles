@@ -199,6 +199,16 @@ config.keys = {
   },
 
   {
+    key = 'i',
+    mods = 'CTRL|SHIFT',
+    action = act.SplitPane {
+      direction = 'Down',
+      size = { Percent = 35 },
+      command = { args = { 'codex' } },
+    },
+  },
+
+  {
     key = '-',
     mods = 'CTRL|SHIFT',
     action = act.SplitVertical {

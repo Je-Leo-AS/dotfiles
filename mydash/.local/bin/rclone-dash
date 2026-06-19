@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+clear
+
+echo "=============================="
+echo "        RCLONE DASHBOARD       "
+echo "=============================="
+echo
+
+echo "User: $USER"
+echo "Date: $(date)"
+echo
+
+echo "=============================="
+echo "RCLONE REMOTES"
+echo "=============================="
+rclone listremotes 2>/dev/null || echo "rclone não respondeu."
+echo
+
+echo "=============================="
+echo "SYSTEMD USER UNITS"
+echo "=============================="
+systemctl --user list-units --type=service --type=timer | grep -i rclone || echo "Nenhum serviço/timer rclone encontrado."
+echo
+
+echo "=============================="
+echo "STATUS DOS SERVIÇOS RCLONE"
+echo "=============================="
+
+units=$(systemctl --user list-unit-files | awk '{print $1}' | grep -i rclone)
+
+if [ -z "$units" ]; then
+    echo "Nenhuma unit rclone encontrada em systemd --user."
+else
+    for unit in $units; do
+        echo
+        echo "---- $unit ----"
+        systemctl --user is-active "$unit" 2>/dev/null
+        systemctl --user is-enabled "$unit" 2>/dev/null
+    done
+fi
+
+echo
+echo "=============================="
+echo "TESTE DOS REMOTES"
+echo "=============================="
+
+while IFS= read -r remote; do
+    [ -n "$remote" ] || continue
+
+    echo
+    echo "Testando $remote"
+
+    if timeout 20 rclone lsd "$remote" >/dev/null 2>&1; then
+        echo "OK - $remote está respondendo"
+    else
+        echo "ERRO - $remote não respondeu corretamente"
+    fi
+done < <(rclone listremotes 2>/dev/null)
+
+echo
+echo "=============================="
+echo "ÚLTIMOS LOGS RCLONE"
+echo "=============================="
+
+if [ -z "$units" ]; then
+    echo "Sem logs porque nenhuma unit rclone foi encontrada."
+else
+    for unit in $units; do
+        echo
+        echo "---- logs: $unit ----"
+        journalctl --user -u "$unit" -n 8 --no-pager 2>/dev/null
+    done
+fi
+
+echo
+echo "=============================="
+echo "DICA"
+echo "=============================="
+echo "Atualiza a cada 10s com:"
+echo "watch -n 10 ~/.local/bin/rclone-dash"
