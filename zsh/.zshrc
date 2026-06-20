@@ -171,3 +171,5 @@ alias dash="~/.config/mydash/mydash"
 export TODO_DIR="$HOME/Documents/Notas/Tasks"
 export TODO_FILE="$TODO_DIR/todo.txt"
 export DONE_FILE="$TODO_DIR/done.txt"
+
+alias td='tuxedo'

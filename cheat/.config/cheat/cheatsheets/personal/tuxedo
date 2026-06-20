@@ -1,0 +1,84 @@
+---
+syntax: bash
+tags: [cheat, cheatsheet, terminal]
+---
+
+# cheat
+
+`cheat` mostra lembretes curtos de comandos diretamente no terminal. Cada
+cheatsheet e um arquivo de texto sem extensao, normalmente com exemplos
+praticos de uma ferramenta.
+
+## Uso basico
+
+```bash
+cheat git                 # abre o cheatsheet chamado "git"
+cheat -l                  # lista todos os cheatsheets
+cheat -b git              # procura "git" apenas nos nomes
+cheat -s ssh              # procura "ssh" no conteudo de todos os sheets
+cheat -c -s ssh           # mesma busca, destacando o resultado com cores
+cheat -r -s 'padrao'      # busca usando expressao regular
+cheat -d                  # mostra os diretorios configurados (cheatpaths)
+cheat -T                  # lista todas as tags
+cheat --conf              # mostra o arquivo de configuracao em uso
+cheat --help              # exibe a ajuda completa
+```
+
+## Criar e editar
+
+```bash
+cheat -e exemplo          # cria ou edita o cheatsheet "exemplo"
+cheat -p personal -e foo  # cria/edita "foo" no cheatpath "personal"
+cheat --rm exemplo        # remove o cheatsheet "exemplo"
+```
+
+O editor e o local dos arquivos sao definidos no `conf.yml`. Nesta
+configuracao, o editor e o Neovim e o cheatpath gravavel chama-se `personal`.
+
+## Cheatpath e tag
+
+- **Cheatpath** e um diretorio que contem cheatsheets.
+- **Tag** e uma etiqueta opcional usada para agrupar e filtrar sheets.
+
+```bash
+cheat -p personal -l      # lista somente o cheatpath "personal"
+cheat -t terminal -l      # lista somente sheets com a tag "terminal"
+cheat -p personal git     # abre "git" especificamente desse cheatpath
+```
+
+## Diferenca entre `+` e `@`
+
+No `cheat` 5.1.0, **nenhum dos dois e um operador especial**. Ambos sao
+interpretados literalmente como parte do nome do cheatsheet:
+
+```bash
+cheat +git                # procura um sheet chamado literalmente "+git"
+cheat @git                # procura um sheet chamado literalmente "@git"
+```
+
+Para selecionar um diretorio use `-p`; para selecionar uma tag use `-t`:
+
+```bash
+cheat -p personal git
+cheat -t terminal -l
+```
+
+Nao confunda essa sintaxe com outros programas ou servicos de cheatsheets,
+nos quais `+` ou `@` podem ter significados proprios.
+
+## Formato de um cheatsheet
+
+O arquivo pode ser texto simples. Opcionalmente, pode comecar com metadados:
+
+```text
+---
+syntax: bash
+tags: [linux, arquivos]
+---
+
+# Listar arquivos, incluindo ocultos:
+ls -la
+```
+
+O nome do arquivo vira o nome usado no comando. Um arquivo chamado `exemplo`
+e aberto com `cheat exemplo`.
