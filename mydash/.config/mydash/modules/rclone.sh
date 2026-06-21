@@ -16,21 +16,6 @@ else
 fi
 
 echo
-echo "Teste dos remotes:"
-
-while IFS= read -r remote; do
-    [ -n "$remote" ] || continue
-
-    printf "%-20s" "$remote"
-
-    if timeout 20 rclone lsd "$remote" >/dev/null 2>&1; then
-        ok
-    else
-        fail
-    fi
-done <<< "$remotes"
-
-echo
 echo "Systemd rclone:"
 
 units=$(systemctl --user list-unit-files 2>/dev/null | awk '{print $1}' | grep -i rclone)
