@@ -11,5 +11,7 @@ lib32-ncurses5-compat-libs
 lib32-ncurses5-compat-libs-debug
 linuxtoys-bin
 python-pytooling
+quartus-free-questa
 stacer-git
+vosviewer
 winboat-bin

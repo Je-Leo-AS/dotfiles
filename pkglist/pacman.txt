@@ -6,6 +6,7 @@ ark
 base
 base-devel
 bauh
+bitwarden
 bluez-utils
 boost
 breeze-plymouth
@@ -50,6 +51,7 @@ ghdl
 git
 git-filter-repo
 git-lfs
+github-cli
 glow
 gnome-tweaks
 gnu-netcat
@@ -57,6 +59,7 @@ gptfdisk
 gst-plugin-pipewire
 gtkwave
 gutenprint
+hledger
 hplip
 htop
 impala
@@ -151,13 +154,16 @@ plasma-meta
 plasma-sdk
 plasma-workspace
 plymouth-kcm
+pmbootstrap
 postgresql
 postgresql-libs
 poxml
 protobuf
 protobuf-c
+pv
 qemu-desktop
 qemu-full
+quartus-free-questa
 rclone
 rsync
 smartmontools
@@ -169,6 +175,7 @@ stow
 stylua
 svgpart
 syncthing
+tailscale
 testdisk
 texlive-basic
 texlive-latexrecommended
@@ -238,6 +245,7 @@ valkey
 virt-manager
 visual-studio-code-bin
 vlc
+vosviewer
 vulkan-intel
 vulkan-nouveau
 vulkan-radeon
@@ -266,3 +274,4 @@ yazi
 yosys
 zram-generator
 zsh
+zsh-autosuggestions

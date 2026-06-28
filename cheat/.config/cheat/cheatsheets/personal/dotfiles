@@ -1,0 +1,146 @@
+# Dotfiles Cheatsheet
+
+Dotfiles sao arquivos de configuracao versionados neste repositorio. Aqui eles sao aplicados com GNU Stow e salvos no Git com os scripts em `~/dotfiles/scripts`.
+
+---
+
+## Comandos mais uteis
+
+| Comando | Para que serve |
+| --- | --- |
+| `cd ~/dotfiles` | Entra no repositorio dos dotfiles |
+| `./scripts/update-dotfiles.sh` | Atualiza listas de pacotes, cria commit e faz push |
+| `./scripts/update-pkglist.sh` | Atualiza listas de pacotes em `pkglist/` |
+| `./scripts/install-packages.sh` | Reinstala pacotes salvos nas listas |
+| `stow <pacote>` | Aplica um pacote de dotfiles |
+| `stow -R <pacote>` | Reaplica um pacote |
+| `stow -D <pacote>` | Remove links de um pacote |
+| `stow -nvv <pacote>` | Simula aplicacao sem alterar arquivos |
+
+---
+
+## Salvar dotfiles
+
+Fluxo recomendado usando o script do repositorio:
+
+```bash
+cd ~/dotfiles
+./scripts/update-dotfiles.sh
+```
+
+O script faz:
+
+1. roda `./scripts/update-pkglist.sh`, se existir
+2. mostra `git status --short`
+3. pede a mensagem do commit
+4. executa `git add .`
+5. executa `git commit -m "<mensagem>"`
+6. executa `git push`
+
+Fluxo manual equivalente:
+
+```bash
+cd ~/dotfiles
+./scripts/update-pkglist.sh
+git status
+git add .
+git commit -m "update dotfiles"
+git push
+```
+
+---
+
+## Aplicar dotfiles
+
+Aplicar um pacote:
+
+```bash
+cd ~/dotfiles
+stow zsh
+```
+
+Aplicar varios pacotes:
+
+```bash
+cd ~/dotfiles
+stow zsh git nvim yazi wezterm glow cheat
+```
+
+Simular antes:
+
+```bash
+cd ~/dotfiles
+stow -nvv zsh
+```
+
+Reaplicar depois de editar:
+
+```bash
+cd ~/dotfiles
+stow -R zsh
+```
+
+---
+
+## Pacotes do repositorio
+
+| Pacote | O que guarda |
+| --- | --- |
+| `zsh` | Configuracao do shell |
+| `nvim` | Configuracao do Neovim |
+| `git` | Configuracao do Git |
+| `ssh` | Configuracao SSH |
+| `yazi` | Configuracao do Yazi |
+| `wezterm` | Configuracao do WezTerm |
+| `glow` | Configuracao do Glow |
+| `cheat` | Cheatsheets pessoais |
+| `rclone` | Configuracao e units de usuario |
+| `mydash` | Dashboard local |
+
+---
+
+## Listas de pacotes
+
+Atualizar listas:
+
+```bash
+cd ~/dotfiles
+./scripts/update-pkglist.sh
+```
+
+Arquivos gerados:
+
+| Arquivo | Conteudo |
+| --- | --- |
+| `pkglist/pacman.txt` | Pacotes explicitos do Pacman |
+| `pkglist/aur.txt` | Pacotes instalados pelo AUR |
+| `pkglist/explicit.txt` | Pacotes explicitos com versao |
+
+Reinstalar em uma maquina Arch:
+
+```bash
+cd ~/dotfiles
+./scripts/install-packages.sh
+```
+
+---
+
+## VPN scripts
+
+| Comando | Para que serve |
+| --- | --- |
+| `./scripts/disable_vpns.sh` | Desconecta WARP e Tailscale |
+| `./scripts/switch_to_tailscale.sh` | Desconecta WARP e conecta Tailscale |
+| `./scripts/toogle_vpn.sh` | Desconecta WARP, sobe Tailscale e abre Nextcloud |
+
+---
+
+## Troubleshooting
+
+| Problema | Solucao |
+| --- | --- |
+| `Permission denied` ao rodar script | Rode `chmod +x scripts/<script>.sh` |
+| Stow acusa conflito | Faca backup do arquivo existente e rode `stow <pacote>` de novo |
+| Push rejeitado | Rode `git pull --rebase` e tente `git push` novamente |
+| Nao sabe o que sera linkado | Use `stow -nvv <pacote>` antes |
+| Arquivo sensivel entrou no Git | Remova do stage com `git restore --staged <arquivo>` |

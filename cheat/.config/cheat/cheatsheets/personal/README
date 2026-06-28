@@ -36,6 +36,7 @@ Se `glow` estiver instalado, os arquivos Markdown abrem com formatacao bonita no
 
 | Ferramenta | Arquivo | Descricao |
 | --- | --- | --- |
+| Dotfiles | [dotfiles](dotfiles) | Fluxo para aplicar e salvar dotfiles |
 | Git | [git.md](git.md) | Controle de versao |
 | Lazygit | [lazygit.md](lazygit.md) | Interface terminal para Git |
 | LazyVim | [lazyvim.md](lazyvim.md) | Configuracao moderna para Neovim |
@@ -59,4 +60,3 @@ Se `glow` estiver instalado, os arquivos Markdown abrem com formatacao bonita no
 ```bash
 cdocs fzf
 ```
-

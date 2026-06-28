@@ -122,8 +122,13 @@ cdocs() {
   _render_markdown "$file"
 }
 
-alias update-pkgs='~/dotfiles/scripts/update-pkglist.sh'
+# Dotfiles scripts
 alias dots='$HOME/dotfiles/scripts/update-dotfiles.sh'
+alias update-pkgs='$HOME/dotfiles/scripts/update-pkglist.sh'
+alias install-pkgs='$HOME/dotfiles/scripts/install-packages.sh'
+alias disable-vpns='$HOME/dotfiles/scripts/disable_vpns.sh'
+alias tailscale-switch='$HOME/dotfiles/scripts/switch_to_tailscale.sh'
+alias toggle-vpn='$HOME/dotfiles/scripts/toogle_vpn.sh'
 
 # Cheat renderizado com glow
 cshow() {
