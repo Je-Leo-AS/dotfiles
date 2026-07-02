@@ -8,6 +8,7 @@ DEFAULT_BRANCH="main"
 DOTFILES_REPO_SSH="git@github.com:Je-Leo-AS/dotfiles.git"
 DOTFILES_DIR="$HOME/dotfiles"
 SSH_KEY="$HOME/.ssh/id_ed25519"
+SSH_KEY_CANDIDATES="$HOME/.ssh/id_git $HOME/.ssh/id_ed25519 $HOME/.ssh/id_rsa"
 
 section() {
     printf '\n==> %s\n' "$1"
@@ -97,14 +98,63 @@ configure_git() {
     git config --global init.defaultBranch "$DEFAULT_BRANCH"
 }
 
+github_ssh_auth_works() {
+    local output
+
+    output="$(ssh -o BatchMode=yes -T git@github.com 2>&1 || true)"
+    printf '%s\n' "$output" | grep -q "successfully authenticated"
+}
+
+choose_ssh_key() {
+    for key in $SSH_KEY_CANDIDATES; do
+        if [ -f "$key" ]; then
+            SSH_KEY="$key"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
 configure_ssh() {
     mkdir -p "$HOME/.ssh"
     chmod 700 "$HOME/.ssh"
 
+    if github_ssh_auth_works; then
+        info "Autenticação SSH com GitHub já configurada; não vou criar nem alterar chaves."
+        return
+    fi
+
+    warn "a autenticação SSH com GitHub ainda não está funcionando."
+    cat <<'EOF'
+Atualize a autenticação do GitHub antes de continuar.
+
+Se você já tem uma chave cadastrada no GitHub, confira se o ~/.ssh/config aponta
+para ela. Exemplo:
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_git
+    IdentitiesOnly yes
+
+EOF
+    printf 'Depois de ajustar a autenticação, aperte ENTER para testar novamente.'
+    read_from_tty _ || die "não foi possível pausar para atualizar a autenticação do GitHub."
+
+    if github_ssh_auth_works; then
+        info "Autenticação SSH com GitHub funcionando."
+        return
+    fi
+
+    warn "a autenticação ainda falhou. Vou seguir com o fallback conservador de chave local."
+
+    if choose_ssh_key; then
+        info "Chave SSH existente encontrada em $SSH_KEY; não vou sobrescrever."
+    fi
+
     if [ ! -f "$SSH_KEY" ]; then
         ssh-keygen -t ed25519 -C "$GIT_EMAIL" -f "$SSH_KEY" -N ""
-    else
-        info "Chave SSH existente encontrada em $SSH_KEY; não vou sobrescrever."
     fi
 
     if [ ! -f "$SSH_KEY.pub" ]; then
