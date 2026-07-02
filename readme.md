@@ -73,21 +73,6 @@ stow zsh
 stow zsh git nvim
 ```
 
-## Aplicar o dashboard local
-
-```bash
-stow mydash
-```
-
-Isso instala os links para:
-
-```text
-~/.config/mydash
-~/.local/bin/rclone-dash
-```
-
-Cheatsheet: [cheat/.config/cheat/cheatsheets/personal/mydash](cheat/.config/cheat/cheatsheets/personal/mydash)
-
 ## Remover links de um pacote
 
 ```bash

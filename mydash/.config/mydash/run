@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-while true; do
-    ~/.config/mydash/mydash
-    sleep 10
-done
