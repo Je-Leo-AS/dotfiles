@@ -25,6 +25,23 @@ Benefícios:
 
 # Instalação
 
+## Bootstrap
+
+Para preparar uma máquina nova, instalar apenas as dependências básicas, configurar Git/SSH e clonar este repositório em `~/dotfiles`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Je-Leo-AS/dotfiles/main/scripts/initialize.sh | bash
+```
+
+O script não executa `stow` automaticamente. Depois do bootstrap, aplique manualmente apenas os pacotes que quiser:
+
+```bash
+cd ~/dotfiles
+stow nvim
+stow zsh
+stow bash
+```
+
 ## Arch Linux
 
 ```bash
