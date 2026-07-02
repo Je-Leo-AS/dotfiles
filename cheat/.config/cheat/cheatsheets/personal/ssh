@@ -14,6 +14,7 @@ SSH permite acessar maquinas remotas e autenticar em servicos como GitHub de for
 | `ssh-keygen -t ed25519 -C "email"` | Cria uma chave nova |
 | `ssh-add ~/.ssh/chave` | Adiciona chave ao agente |
 | `ssh -T git@github.com` | Testa autenticacao com GitHub |
+| `ssh montana` | Acessa o Montana pelo alias do `~/.ssh/config` |
 
 ---
 
@@ -27,6 +28,49 @@ SSH permite acessar maquinas remotas e autenticar em servicos como GitHub de for
 | `~/.ssh/id_*` | Chaves privadas, nao compartilhe |
 
 SSH nao tem atalhos de teclado comuns; o uso principal e por comando.
+
+---
+
+## WezTerm + SSH
+
+A configuracao do WezTerm le os aliases definidos em:
+
+```bash
+~/.ssh/config
+```
+
+Atalhos no WezTerm:
+
+| Atalho | Acao |
+| --- | --- |
+| `Ctrl+Shift+S` | Abre seletor fuzzy de hosts SSH e conecta em nova aba |
+| `Ctrl+Shift+Alt+S` | Abre seletor fuzzy de hosts SSH e conecta em painel a direita |
+| `Ctrl+Shift+L` | Abre launcher antigo do WezTerm com dominios |
+
+Fluxo:
+
+1. Pressione `Ctrl+Shift+S`.
+2. Digite parte do alias, por exemplo `montana`.
+3. Selecione o host.
+4. O WezTerm executa `ssh <host>` e nomeia a aba como `SSH: <host>`.
+
+Exemplos:
+
+```bash
+ssh montana
+ssh harpia
+ssh moto
+ssh je@montana.tail613c98.ts.net
+```
+
+Os hosts especiais sao ignorados no seletor:
+
+```sshconfig
+Host *
+Host ?
+Host *.exemplo
+Host github.com
+```
 
 ---
 
@@ -47,6 +91,26 @@ Depois:
 
 ```bash
 ssh servidor
+```
+
+### Acessar o Montana
+
+Alias local:
+
+```bash
+ssh montana
+```
+
+Nome Tailscale completo:
+
+```bash
+ssh je@montana.tail613c98.ts.net
+```
+
+Testar sem abrir shell interativo:
+
+```bash
+ssh montana 'hostname; whoami'
 ```
 
 ### Corrigir permissoes
@@ -76,6 +140,29 @@ ssh-keygen -t ed25519 -C "seu-email"
 
 ---
 
+## Prompt remoto opcional
+
+Existe um script nos dotfiles para melhorar o prompt em hosts remotos quando a sessao for SSH:
+
+```bash
+~/dotfiles/scripts/remote-ssh-prompt.sh
+```
+
+Ele adiciona um bloco marcado em `~/.profile` da maquina onde for executado. Use manualmente em cada host remoto, apenas se quiser:
+
+```bash
+scp ~/dotfiles/scripts/remote-ssh-prompt.sh montana:/tmp/
+ssh montana 'bash /tmp/remote-ssh-prompt.sh'
+```
+
+Depois de reconectar, o prompt fica parecido com:
+
+```text
+[SSH montana] ~ $
+```
+
+---
+
 ## Troubleshooting
 
 | Problema | Solucao |
@@ -84,4 +171,3 @@ ssh-keygen -t ed25519 -C "seu-email"
 | `Bad permissions` | Ajuste permissoes com `chmod` |
 | Host mudou chave | Verifique se e legitimo antes de editar `known_hosts` |
 | Chave privada no Git | Remova imediatamente e gere uma chave nova |
-

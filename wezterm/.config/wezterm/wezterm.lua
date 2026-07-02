@@ -24,6 +24,109 @@ local function sorted_keys(values)
   return keys
 end
 
+local function shell_quote(value)
+  return "'" .. tostring(value):gsub("'", "'\\''") .. "'"
+end
+
+local function parse_ssh_config_hosts()
+  local hosts = {}
+  local path = home_dir .. '/.ssh/config'
+  local file = io.open(path, 'r')
+
+  if not file then
+    return {}
+  end
+
+  for line in file:lines() do
+    local host_line = line:match('^%s*[Hh][Oo][Ss][Tt]%s+(.+)$')
+
+    if host_line then
+      host_line = host_line:gsub('%s+#.*$', '')
+
+      for host in host_line:gmatch('%S+') do
+        if host ~= '*'
+          and host ~= '?'
+          and host ~= 'github.com'
+          and not host:find('[%*%?%!]')
+        then
+          hosts[host] = true
+        end
+      end
+    end
+  end
+
+  file:close()
+  return sorted_keys(hosts)
+end
+
+local function ssh_host_choices()
+  local choices = {}
+
+  for _, host in ipairs(parse_ssh_config_hosts()) do
+    table.insert(choices, {
+      id = host,
+      label = host,
+    })
+  end
+
+  return choices
+end
+
+local function ssh_command_args(host)
+  local quoted_host = shell_quote(host)
+  local title = shell_quote('SSH: ' .. host)
+
+  return {
+    'bash',
+    '-lc',
+    'wezterm cli set-tab-title ' .. title .. ' >/dev/null 2>&1; exec ssh ' .. quoted_host,
+  }
+end
+
+local function open_ssh_action(split)
+  local function open_host(window, pane, host)
+    if not host or host == '' then
+      return
+    end
+
+    local action
+    if split then
+      action = act.SplitPane {
+        direction = 'Right',
+        size = { Percent = 50 },
+        command = { args = ssh_command_args(host) },
+      }
+    else
+      action = act.SpawnCommandInNewTab {
+        args = ssh_command_args(host),
+      }
+    end
+
+    window:perform_action(action, pane)
+  end
+
+  local choices = ssh_host_choices()
+
+  if act.InputSelector and #choices > 0 then
+    return act.InputSelector {
+      title = 'SSH host',
+      description = 'Choose a host from ~/.ssh/config',
+      fuzzy = true,
+      choices = choices,
+      action = wezterm.action_callback(function(window, pane, id, label)
+        open_host(window, pane, id or label)
+      end),
+    }
+  end
+
+  return act.PromptInputLine {
+    description = 'SSH host',
+    action = wezterm.action_callback(function(window, pane, line)
+      open_host(window, pane, line)
+    end),
+  }
+end
+
 local function basename(domain_name)
   if not domain_name or domain_name == '' then
     return 'local'
@@ -39,15 +142,38 @@ local function is_local_domain(domain_name)
       or domain_name:match('^local:')
 end
 
+local function ssh_label_from_title(title)
+  if not title or title == '' then
+    return nil
+  end
+
+  local explicit = title:match('^(SSH:%s*.+)$')
+  if explicit then
+    return explicit
+  end
+
+  local ssh_host = title:match('ssh%s+([^%s]+)')
+  if ssh_host then
+    return 'SSH: ' .. ssh_host
+  end
+
+  return nil
+end
+
 local function tab_title(tab)
   local pane = tab.active_pane
   local domain_name = pane and pane.domain_name or ''
+  local title = pane and pane.title or ''
+  local ssh_label = ssh_label_from_title(title)
 
+  if ssh_label then
+    return ssh_label
+  end
   if not is_local_domain(domain_name) then
-    return basename(domain_name)
+    return 'SSH: ' .. basename(domain_name)
   end
 
-  return pane and pane.title or 'local'
+  return title ~= '' and title or 'local'
 end
 
 local function add_ssh_shortcut(keys, key, host, known_hosts)
@@ -143,7 +269,7 @@ config.hide_tab_bar_if_only_one_tab = false
 config.tab_bar_at_bottom = false
 
 -- SSH domains gerados a partir de ~/.ssh/config.
-local ssh_hosts = sorted_keys(wezterm.enumerate_ssh_hosts())
+local ssh_hosts = parse_ssh_config_hosts()
 config.ssh_domains = {}
 
 for _, host in ipairs(ssh_hosts) do
@@ -156,9 +282,13 @@ end
 
 wezterm.on('update-right-status', function(window, pane)
   local domain_name = pane:get_domain_name()
+  local title = pane:get_title()
   local label = 'LOCAL'
+  local ssh_label = ssh_label_from_title(title)
 
-  if not is_local_domain(domain_name) then
+  if ssh_label then
+    label = ssh_label
+  elseif not is_local_domain(domain_name) then
     label = 'SSH: ' .. basename(domain_name)
   end
 
@@ -193,6 +323,18 @@ config.keys = {
 
   {
     key = 's',
+    mods = 'CTRL|SHIFT',
+    action = open_ssh_action(false),
+  },
+
+  {
+    key = 's',
+    mods = 'CTRL|SHIFT|ALT',
+    action = open_ssh_action(true),
+  },
+
+  {
+    key = 'l',
     mods = 'CTRL|SHIFT',
     action = act.ShowLauncherArgs {
       flags = 'FUZZY|DOMAINS',
