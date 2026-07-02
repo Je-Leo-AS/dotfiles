@@ -49,6 +49,10 @@ run_as_root() {
 
 ensure_git_email() {
     if [ "$GIT_EMAIL" = "seu-email@example.com" ]; then
+        GIT_EMAIL="$(git config --global user.email || true)"
+    fi
+
+    if [ -z "$GIT_EMAIL" ] || [ "$GIT_EMAIL" = "seu-email@example.com" ]; then
         printf 'E-mail do Git/GitHub para configurar o Git e a chave SSH: '
         read_from_tty GIT_EMAIL || die "defina GIT_EMAIL antes de executar em ambiente sem terminal."
     fi
@@ -74,6 +78,16 @@ detect_os() {
 }
 
 install_packages() {
+    if command -v git >/dev/null 2>&1 &&
+        command -v stow >/dev/null 2>&1 &&
+        command -v nvim >/dev/null 2>&1 &&
+        command -v curl >/dev/null 2>&1 &&
+        command -v ssh >/dev/null 2>&1 &&
+        command -v bash >/dev/null 2>&1; then
+        info "Dependências básicas já instaladas; pulando instalação de pacotes."
+        return
+    fi
+
     case "$PKG_MANAGER" in
         apk)
             run_as_root apk update
