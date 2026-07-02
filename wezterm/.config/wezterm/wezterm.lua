@@ -215,7 +215,7 @@ config.keys = {
     action = act.SplitPane {
       direction = 'Right',
       size = { Percent = 45 },
-      command = { args = { 'bash', '-lc', '~/.config/mydash/run' } },
+      command = { args = { 'bash', '-lc', 'btop' } },
     },
   },
 
