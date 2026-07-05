@@ -4,7 +4,16 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=rclone bisync "OneDrive Pessoal:" /home/je/Clouds/OneDrive --exclude "Cofre Pessoal/**" --resync --log-file=/home/je/rclone-onedrive.log
+ExecStart=rclone bisync "OneDrive Pessoal:" /home/je/Clouds/OneDrive \
+  --exclude "Cofre Pessoal" \
+  --exclude "Cofre Pessoal/**" \
+  --exclude "Vídeos" \
+  --exclude "Vídeos/**" \
+  --exclude "**/.~lock.*#" \
+  --exclude ".~lock.*#" \
+  --resync \
+  --resync-mode newer \
+  --log-file=/home/je/rclone-onedrive.log
 ExecStartPost=systemctl --user start rclone-onedrive.timer
 
 [Install]

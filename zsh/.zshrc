@@ -173,7 +173,7 @@ vsimq() {
 alias dashpane="wezterm cli split-pane --right --percent 45 -- bash -lc '~/.config/mydash/run'"
 alias dash="~/.config/mydash/mydash"
 
-export TODO_DIR="$HOME/Documents/Notas/Tasks"
+export TODO_DIR="$HOME/Documents/Notas/01_Tasks"
 export TODO_FILE="$TODO_DIR/todo.txt"
 export DONE_FILE="$TODO_DIR/done.txt"
 
