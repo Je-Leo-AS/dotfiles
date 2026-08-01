@@ -53,6 +53,7 @@ gptfdisk
 gst-plugin-pipewire
 gtkwave
 gutenprint
+hledger
 hplip
 htop
 intel-media-driver

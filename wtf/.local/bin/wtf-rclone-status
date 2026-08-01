@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+printf "RClone Manager: "
+if pgrep -u "$USER" -x rclone-manager >/dev/null 2>&1; then
+  printf "running\n"
+else
+  printf "stopped\n"
+fi
+
+printf "RClone daemon:  "
+if pgrep -u "$USER" -x rclone >/dev/null 2>&1; then
+  printf "running\n"
+else
+  printf "stopped\n"
+fi
+
+printf "RC port 51900:  "
+if command -v ss >/dev/null 2>&1 && ss -ltn 'sport = :51900' | awk 'NR > 1 { found=1 } END { exit !found }'; then
+  printf "listening\n"
+else
+  printf "not listening\n"
+fi
+
+printf "\nRemotes:\n"
+if command -v rclone >/dev/null 2>&1; then
+  rclone listremotes 2>/dev/null | sed 's/^/  /' || printf "  unable to read remotes\n"
+else
+  printf "  rclone not found\n"
+fi
+
+printf "\nCloud folders:\n"
+for dir in "$HOME/Clouds/OneDrive" "$HOME/Clouds/GoogleDrive"; do
+  if [[ -d "$dir" ]]; then
+    printf "  %-28s %s\n" "${dir/#$HOME\//}" "$(df -h "$dir" | awk 'NR == 2 { print $4 " free on " $1 }')"
+  else
+    printf "  %-28s missing\n" "${dir/#$HOME\//}"
+  fi
+done
+
+printf "\nRecent rclone log issues:\n"
+if compgen -G "$HOME/rclone-*.log" >/dev/null; then
+  issues="$(rg -i --no-heading 'error|failed|critical|panic' "$HOME"/rclone-*.log 2>/dev/null | tail -5 || true)"
+  if [[ -n "$issues" ]]; then
+    printf "%s\n" "$issues" | sed 's#^/home/je/##' | sed 's/^/  /'
+  else
+    printf "  none in ~/rclone-*.log\n"
+  fi
+else
+  printf "  no ~/rclone-*.log files found\n"
+fi

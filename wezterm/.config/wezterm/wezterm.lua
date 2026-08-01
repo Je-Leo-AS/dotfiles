@@ -354,6 +354,14 @@ config.keys = {
   {
     key = 'd',
     mods = 'CTRL|SHIFT',
+    action = act.SpawnCommandInNewTab {
+      args = { home_dir .. '/.local/bin/sysdash' },
+    },
+  },
+
+  {
+    key = 'd',
+    mods = 'CTRL|SHIFT|ALT',
     action = act.SplitPane {
       direction = 'Right',
       size = { Percent = 45 },

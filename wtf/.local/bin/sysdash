@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if command -v wezterm >/dev/null 2>&1 && [[ -n "${WEZTERM_PANE:-}" ]]; then
+  wezterm cli split-pane --right --percent 42 --cwd "$HOME" -- bash -lc "$HOME/.local/bin/wtfdash"
+  exec btop
+fi
+
+if command -v wezterm >/dev/null 2>&1 && [[ -z "${SYSDASH_INSIDE_WEZTERM:-}" ]]; then
+  exec env SYSDASH_INSIDE_WEZTERM=1 wezterm start --cwd "$HOME" -- bash -lc "$HOME/.local/bin/sysdash"
+fi
+
+exec "$HOME/.local/bin/wtfdash"

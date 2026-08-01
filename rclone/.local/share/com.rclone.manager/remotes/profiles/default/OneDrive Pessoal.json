@@ -1,0 +1,53 @@
+{
+  "bisyncConfigs": {
+    "default": {
+      "app": {
+        "autoStart": true,
+        "backendProfile": "default",
+        "cronEnabled": false,
+        "filterProfile": "default",
+        "runtimeRemoteProfile": "default",
+        "vfsProfile": "default",
+        "watchDelay": 60,
+        "watchEnabled": true
+      },
+      "rclone": {
+        "path1": "OneDrive Pessoal:",
+        "path2": "/home/je/Clouds/OneDrive"
+      }
+    }
+  },
+  "filterConfigs": {
+    "default": {
+      "ExcludeRule": [
+        "Cofre Pessoal/**"
+      ]
+    }
+  },
+  "name": "OneDrive Pessoal",
+  "primaryActions": [],
+  "runtimeRemoteConfigs": {
+    "default": {
+      "OneDrive Pessoal": {}
+    }
+  },
+  "showOnTray": false,
+  "syncConfigs": {
+    "default": {
+      "app": {
+        "autoStart": false,
+        "backendProfile": "default",
+        "cronEnabled": false,
+        "filterProfile": "default",
+        "runtimeRemoteProfile": "default",
+        "vfsProfile": "default",
+        "watchDelay": 5,
+        "watchEnabled": false
+      },
+      "rclone": {
+        "dstFs": "/home/je/Clouds/OneDrive",
+        "srcFs": "OneDrive Pessoal:"
+      }
+    }
+  }
+}

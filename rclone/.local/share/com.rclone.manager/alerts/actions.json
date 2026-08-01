@@ -1,0 +1,8 @@
+{
+  "default-os-toast": {
+    "enabled": false,
+    "id": "default-os-toast",
+    "kind": "os_toast",
+    "name": "OS Notification"
+  }
+}

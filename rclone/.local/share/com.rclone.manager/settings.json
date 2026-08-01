@@ -1,0 +1,12 @@
+{
+  "core": {
+    "completed_onboarding": true
+  },
+  "general": {
+    "notifications": false,
+    "start_on_startup": true
+  },
+  "runtime": {
+    "dashboard_card_variant": "detailed"
+  }
+}

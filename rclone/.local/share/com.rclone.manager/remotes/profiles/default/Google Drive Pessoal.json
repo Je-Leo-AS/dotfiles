@@ -1,0 +1,24 @@
+{
+  "bisyncConfigs": {
+    "default": {
+      "app": {
+        "autoStart": true,
+        "backendProfile": "default",
+        "cronEnabled": false,
+        "filterProfile": "default",
+        "runtimeRemoteProfile": "default",
+        "vfsProfile": "default",
+        "watchDelay": 5,
+        "watchEnabled": true
+      },
+      "rclone": {
+        "dryRun": false,
+        "path1": "Google Drive Pessoal:",
+        "path2": "/home/je/Clouds/GoogleDrive"
+      }
+    }
+  },
+  "name": "Google Drive Pessoal",
+  "primaryActions": [],
+  "showOnTray": false
+}

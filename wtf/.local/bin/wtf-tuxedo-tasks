@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+todo_file="${TODO_FILE:-$HOME/Documents/Notas/01_Tasks/todo.txt}"
+
+if [[ ! -f "$todo_file" ]]; then
+  printf "Todo file not found:\n%s\n" "$todo_file"
+  exit 0
+fi
+
+printf "Source: %s\n\n" "${todo_file/#$HOME\//~/}"
+
+if command -v tuxedo >/dev/null 2>&1; then
+  TODO_FILE="$todo_file" tuxedo list 2>/dev/null | sed -n '1,12p'
+else
+  sed -n '1,12p' "$todo_file"
+fi

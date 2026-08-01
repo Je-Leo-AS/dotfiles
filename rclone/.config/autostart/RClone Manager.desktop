@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=RClone Manager
+Comment=RClone Managerstartup script
+Exec=/usr/bin/rclone-manager --tray
+StartupNotify=false
+Terminal=false
+Hidden=true

@@ -1,0 +1,11 @@
+{
+  "Local": {
+    "config_path": "/home/je/.config/rclone/rclone.conf",
+    "host": "127.0.0.1",
+    "is_local": true,
+    "oauth_host": "127.0.0.1",
+    "oauth_port": 51901,
+    "port": 51900,
+    "username": "user_5514472d"
+  }
+}

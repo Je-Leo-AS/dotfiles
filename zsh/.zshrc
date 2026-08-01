@@ -4,6 +4,7 @@
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 export TERMINAL=wezterm
+export PATH="$HOME/.local/bin:$PATH"
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
@@ -170,11 +171,22 @@ vsimq() {
     vsim
 }
 
-alias dashpane="wezterm cli split-pane --right --percent 45 -- bash -lc '~/.config/mydash/run'"
-alias dash="~/.config/mydash/mydash"
+alias dash='wtfdash'
+alias dashpane='sysdash'
 
 export TODO_DIR="$HOME/Documents/Notas/01_Tasks"
 export TODO_FILE="$TODO_DIR/todo.txt"
 export DONE_FILE="$TODO_DIR/done.txt"
 
 alias td='tuxedo'
+
+# hledger
+export FINANCE_DIR="$HOME/Documents/Notas/06_Finanças"
+export LEDGER_FILE="$FINANCE_DIR/main.journal"
+
+# bun completions
+[ -s "/home/je/.bun/_bun" ] && source "/home/je/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

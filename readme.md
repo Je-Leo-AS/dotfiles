@@ -160,19 +160,22 @@ stow nvim
 
 ---
 
-# Systemd de usuário
+# Rclone e RClone Manager
 
-Os units de usuário ficam versionados no mesmo formato usado pelo Stow:
+As configurações do rclone e do RClone Manager ficam no pacote `rclone`, no mesmo formato usado pelo Stow:
 
 ```text
 rclone/
-└── .config/systemd/user/
-    ├── rclone-googledrive-resync.service
-    ├── rclone-googledrive.service
-    ├── rclone-googledrive.timer
-    ├── rclone-onedrive-resync.service
-    ├── rclone-onedrive.service
-    └── rclone-onedrive.timer
+├── .config/
+│   ├── autostart/
+│   │   └── RClone Manager.desktop
+│   └── rclone/
+│       └── rclone.conf
+└── .local/share/com.rclone.manager/
+    ├── alerts/
+    ├── remotes/
+    ├── connections.json
+    └── settings.json
 ```
 
 Para aplicar em uma máquina:
@@ -180,17 +183,37 @@ Para aplicar em uma máquina:
 ```bash
 cd ~/dotfiles
 stow rclone
-systemctl --user daemon-reload
-systemctl --user enable --now rclone-onedrive.timer
-systemctl --user enable --now rclone-googledrive.timer
 ```
 
-Para conferir o estado:
+Os services e timers antigos de systemd do rclone não são mais versionados neste pacote.
+
+
+---
+
+# Dashboard de terminal
+
+O pacote `wtf` configura um dashboard com WTFUtil e scripts auxiliares:
+
+```text
+wtf/
+├── .config/wtf/config.yml
+└── .local/bin/
+    ├── sysdash
+    ├── wtfdash
+    ├── wtf-btop-summary
+    ├── wtf-rclone-status
+    └── wtf-tuxedo-tasks
+```
+
+Comandos principais:
 
 ```bash
-systemctl --user list-timers 'rclone-*'
-systemctl --user status rclone-onedrive.timer rclone-googledrive.timer
+sysdash  # abre btop e WTFUtil lado a lado no WezTerm
+wtfdash  # abre apenas o dashboard WTFUtil
+dash     # alias para wtfdash
 ```
+
+O binário `wtfutil` fica em `~/.local/bin/wtfutil`.
 
 ---
 
