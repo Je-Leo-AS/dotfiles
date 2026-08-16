@@ -346,8 +346,8 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = act.SplitPane {
       direction = 'Down',
-      size = { Percent = 35 },
-      command = { args = { home_dir .. '/.local/bin/goose' } },
+      size = { Percent = 45 },
+      command = { args = { home_dir .. '/.opencode/bin/opencode' } },
     },
   },
 

@@ -190,3 +190,6 @@ export LEDGER_FILE="$FINANCE_DIR/main.journal"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# opencode
+export PATH=/home/je/.opencode/bin:$PATH

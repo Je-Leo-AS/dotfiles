@@ -171,7 +171,7 @@ dpkg --get-selections | awk '$2 == "install" {print $1}' > ~/dotfiles/pkg-list.t
 ## Alterar remote do GitLab
 
 ```bash
-git remote set-url origin https://oauth2:TOKEN@gitlab.com/projetos-pessoais5523809/homelab-dotfiles.git
+git remote set-url origin git@gitlab.com:projetos-pessoais5523809/homelab-dotfiles.git
 ```
 
 ---
@@ -199,4 +199,3 @@ git remote set-url origin https://oauth2:TOKEN@gitlab.com/projetos-pessoais55238
 | Ver CPU | `lscpu` |
 
 ````
-

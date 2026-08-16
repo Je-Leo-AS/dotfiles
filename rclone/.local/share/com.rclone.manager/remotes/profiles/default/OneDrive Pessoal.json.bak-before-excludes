@@ -8,35 +8,23 @@
         "filterProfile": "default",
         "runtimeRemoteProfile": "default",
         "vfsProfile": "default",
-        "watchDelay": 60,
+        "watchDelay": 30,
         "watchEnabled": true
       },
       "rclone": {
         "path1": "OneDrive Pessoal:",
         "path2": "/home/je/Clouds/OneDrive",
-        "resync": false
+        "resync": true
       }
-    }
-  },
-  "filterConfigs": {
-    "default": {
-      "ExcludeRule": [
-        "Cofre Pessoal/**"
-      ]
     }
   },
   "name": "OneDrive Pessoal",
   "primaryActions": [],
-  "runtimeRemoteConfigs": {
-    "default": {
-      "OneDrive Pessoal": {}
-    }
-  },
   "showOnTray": false,
   "syncConfigs": {
     "default": {
       "app": {
-        "autoStart": false,
+        "autoStart": true,
         "backendProfile": "default",
         "cronEnabled": false,
         "filterProfile": "default",

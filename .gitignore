@@ -1,4 +1,4 @@
-rclone/.config/rclone/rclone.conf
+rclone/.config/rclone/rclone.conf*
 ssh/.ssh/id_*
 !ssh/.ssh/*.pub
 ssh/.ssh/id_*

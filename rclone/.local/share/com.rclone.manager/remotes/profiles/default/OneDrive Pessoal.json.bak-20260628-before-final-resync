@@ -8,7 +8,7 @@
         "filterProfile": "default",
         "runtimeRemoteProfile": "default",
         "vfsProfile": "default",
-        "watchDelay": 60,
+        "watchDelay": 15,
         "watchEnabled": true
       },
       "rclone": {
@@ -20,6 +20,9 @@
   },
   "filterConfigs": {
     "default": {
+      "ExcludeFile": [
+        "Cofre Pessoal/**"
+      ],
       "ExcludeRule": [
         "Cofre Pessoal/**"
       ]
