@@ -360,33 +360,6 @@ config.keys = {
   },
 
   {
-    key = 'd',
-    mods = 'CTRL|SHIFT|ALT',
-    action = act.SplitPane {
-      direction = 'Right',
-      size = { Percent = 45 },
-      command = {
-        args = {
-          'bash',
-          '-lc',
-          table.concat({
-            'for cmd in tuxedo-control-center tuxedo-control-center-bin tuxedo-control-center-git; do',
-            '  if command -v "$cmd" >/dev/null 2>&1; then',
-            '    setsid -f "$cmd" >/dev/null 2>&1;',
-            '    printf "TUXEDO Control Center aberto pelo dashboard.\\n";',
-            '    exec bash;',
-            '  fi;',
-            'done;',
-            'printf "TUXEDO Control Center nao encontrado no PATH.\\n";',
-            'printf "Instale o TUXEDO Control Center ou ajuste o comando neste bloco.\\n";',
-            'exec bash',
-          }, ' '),
-        },
-      },
-    },
-  },
-
-  {
     key = '-',
     mods = 'CTRL|SHIFT',
     action = act.SplitVertical {

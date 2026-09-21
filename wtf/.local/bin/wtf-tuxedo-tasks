@@ -1,17 +1,45 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-todo_file="${TODO_FILE:-$HOME/Documents/Notas/01_Tasks/todo.txt}"
+commands=(
+  tuxedo-control-center
+  tuxedo-control-center-bin
+  tuxedo-control-center-git
+  /opt/tuxedo-control-center/tuxedo-control-center
+)
 
-if [[ ! -f "$todo_file" ]]; then
-  printf "Todo file not found:\n%s\n" "$todo_file"
+is_running() {
+  pgrep -f 'tuxedo-control-center' >/dev/null 2>&1
+}
+
+printf 'TUXEDO Control Center\n\n'
+
+if is_running; then
+  printf 'Status: aberto\n'
   exit 0
 fi
 
-printf "Source: %s\n\n" "${todo_file/#$HOME\//~/}"
+for cmd in "${commands[@]}"; do
+  if [[ "$cmd" == */* ]]; then
+    [[ -x "$cmd" ]] || continue
+    setsid -f "$cmd" >/dev/null 2>&1 || true
+    sleep 1
+    if is_running; then
+      printf 'Status: aberto agora\n'
+      printf 'Comando: %s\n' "$cmd"
+      exit 0
+    fi
+  elif command -v "$cmd" >/dev/null 2>&1; then
+    setsid -f "$cmd" >/dev/null 2>&1 || true
+    sleep 1
+    if is_running; then
+      printf 'Status: aberto agora\n'
+      printf 'Comando: %s\n' "$cmd"
+      exit 0
+    fi
+  fi
+done
 
-if command -v tuxedo >/dev/null 2>&1; then
-  TODO_FILE="$todo_file" tuxedo list 2>/dev/null | sed -n '1,12p'
-else
-  sed -n '1,12p' "$todo_file"
-fi
+printf 'Status: aplicativo nao encontrado no PATH\n'
+printf 'Esperado: tuxedo-control-center\n'
+printf 'Obs: este board dispara o app grafico; ele nao roda embutido no terminal.\n'
